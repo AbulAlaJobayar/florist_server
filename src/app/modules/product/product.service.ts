@@ -30,8 +30,9 @@ const getAllProductIntoDB = async (query: any) => {
     .fields();
   const result = await productQuery.modelQuery;
   const meta = await productQuery.countTotal();
+  const filteredData = result.filter((item) => item.quantity !== 0);
   return {
-    result,
+    filteredData,
     meta,
   };
 };
@@ -97,5 +98,5 @@ export const productService = {
   getSingleProductFromDB,
   updateProductFromDB,
   delateProductFromDB,
-  bulkDeleteFromDB
+  bulkDeleteFromDB,
 };
