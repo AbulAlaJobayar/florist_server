@@ -8,5 +8,5 @@ export type TProduct = {
   size: string;
   fragrance: string;
   image: string;
-  type:string;
+  
 };

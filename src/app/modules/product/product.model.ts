@@ -39,11 +39,7 @@ const productSchema = new Schema<TProduct>(
     image: {
       type: String,
       required: [true, 'please provide flower image'],
-    },
-    type:{
-        type: String,
-        required: [true, 'please provide flower type'],
-    }
+    }, 
   },
   { timestamps: true },
 );
