@@ -15,14 +15,8 @@ const getAllProductIntoDB = async (query: any) => {
   const productQuery = new QueryBuilder(Product.find(), query)
     .search([
       'name',
-      'price',
-      'bloomDate',
-      'quantity',
       'color',
-      'category',
-      'size',
-      'fragrance',
-      'type',
+      'size'
     ])
     .filter()
     .sort()

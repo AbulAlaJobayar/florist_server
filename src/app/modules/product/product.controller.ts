@@ -16,10 +16,10 @@ const createProductIntoDB = catchAsync(async (req:Request, res:Response) => {
 
 const getAllProductIntoDB = catchAsync(async (req: Request, res: Response) => {
   const result = await productService.getAllProductIntoDB(req.query);
-  const { meta,result:data } = result;
+  const { meta,filteredData:data } = result;
 
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
     message: 'Flower retrieved successfully!',
     meta,
