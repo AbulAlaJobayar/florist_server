@@ -16,7 +16,10 @@ const getAllProductIntoDB = async (query: any) => {
     .search([
       'name',
       'color',
-      'size'
+      'size',
+      'fragrance',
+      'category'
+      
     ])
     .filter()
     .sort()

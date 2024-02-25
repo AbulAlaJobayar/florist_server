@@ -36,10 +36,6 @@ const productValidation = z.object({
     invalid_type_error: 'fragrance must be string',
     required_error: 'fragrance must be required',
   }),
-  type: z.string({
-    invalid_type_error: 'type must be string',
-    required_error: 'type must be required',
-  }),
 });
 const updateProductValidation = z.object({
   name: z
