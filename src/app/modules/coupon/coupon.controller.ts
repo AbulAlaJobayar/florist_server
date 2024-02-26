@@ -4,7 +4,6 @@ import { couponService } from "./coupon.service";
 import sendResponse from "../../utils/sendResponse";
 
 const createCouponIntoDB = catchAsync(async (req, res) => {
-  console.log(req.body);
   const result = await couponService.createCoupon(req.user, req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,

@@ -11,7 +11,7 @@ const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
   const { id: tokenId } = userData;
   const session = await mongoose.startSession();
 
-  console.log(userData, payload);
+  
   try {
     session.startTransaction();
     const { productId, sell } = payload;
@@ -81,7 +81,15 @@ const getAllSalesIntoDB = async () => {
     .exec();
   return result;
 };
+const getSalesBySellerIntoDB = async (payload:string) => {
+  const result = await Sales.find({userId:payload})
+    .populate({ path: 'productId' })
+    .populate({ path: 'userId' })
+    .exec();
+  return result;
+};
 export const salesService = {
   createSaleIntoDB,
   getAllSalesIntoDB,
+  getSalesBySellerIntoDB
 };

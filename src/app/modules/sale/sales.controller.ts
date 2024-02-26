@@ -4,7 +4,6 @@ import sendResponse from "../../utils/sendResponse";
 import { salesService } from "./sales.service";
 
 const createSalesIntoDB = catchAsync(async (req, res) => {
-  console.log(req.body)
   const result = await salesService.createSaleIntoDB(req.user, req.body);
 
   sendResponse(res, {
@@ -24,7 +23,18 @@ const getAllSalesIntoDB = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getSalesBySellerIntoDB = catchAsync(async (req, res) => {
+  const {id}=req.user
+  const result = await salesService.getSalesBySellerIntoDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Sales Retrieved successfully',
+    data: result,
+  });
+});
 export const salesController = {
   createSalesIntoDB,
   getAllSalesIntoDB,
+  getSalesBySellerIntoDB,
 };
