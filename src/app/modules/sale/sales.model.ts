@@ -1,7 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { TSales } from './sales.interface';
 
-
 const salesSchema = new Schema<TSales>(
   {
     productId: {
@@ -12,11 +11,11 @@ const salesSchema = new Schema<TSales>(
       type: Number,
       required: true,
     },
-    buyerName:{
+    buyerName: {
       type: String,
       required: true,
     },
-    
+
     saleDate: {
       type: Date,
       required: true,
@@ -25,7 +24,16 @@ const salesSchema = new Schema<TSales>(
       type: String,
       required: true,
     },
-
+    coupon: {
+      type: String,
+    },
+    totalPrice: {
+      type: Number,
+    },
+    discountPrice: {
+      type: Number,
+      required: true,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',

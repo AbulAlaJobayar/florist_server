@@ -1,17 +1,17 @@
-import { JwtPayload } from "jsonwebtoken";
-import mongoose from "mongoose";
-import { Product } from "../product/product.model";
-import AppError from "../../utils/AppError";
-import httpStatus from "http-status";
-import { TSales } from "./sales.interface";
-import { Sales } from "./sales.model";
-
+import { JwtPayload } from 'jsonwebtoken';
+import mongoose from 'mongoose';
+import { Product } from '../product/product.model';
+import AppError from '../../utils/AppError';
+import httpStatus from 'http-status';
+import { TSales } from './sales.interface';
+import { Sales } from './sales.model';
+import { Coupon } from '../coupon/coupon.model';
 
 const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
-  const { id: tokenId} = userData;
+  const { id: tokenId } = userData;
   const session = await mongoose.startSession();
 
-  console.log(userData, payload)
+  console.log(userData, payload);
   try {
     session.startTransaction();
     const { productId, sell } = payload;
@@ -31,7 +31,6 @@ const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
       );
     }
 
-
     // Update product quantity
     const updatedProduct = await Product.findByIdAndUpdate(
       { _id: product._id },
@@ -45,7 +44,20 @@ const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
         'Failed to update product quantity',
       );
     }
+    // check couponCode
+    const isValidCoupon = await Coupon.findOne({
+      code: payload.coupon,
+    }).session(session);
+    const totalPrice = product.price * sell;
+
+    let discountPrice;
+    if (isValidCoupon) {
+      const discountPercentage = isValidCoupon.discountPercentage;
+      discountPrice = totalPrice - totalPrice * (discountPercentage / 100);
+    }
     payload.userId = tokenId;
+    payload.totalPrice = totalPrice;
+    payload.discountPrice = discountPrice || totalPrice;
     // Create a new sale
     const sale = await Sales.create([payload], { session });
 
