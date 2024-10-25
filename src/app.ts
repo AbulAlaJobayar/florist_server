@@ -8,7 +8,14 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({origin: 'https://incredible-sunshine-b6f9ea.netlify.app', credentials: true}));
+const allowedOrigin=['https://incredible-sunshine-b6f9ea.netlify.app',"*"]
+app.use(cors({origin:(origin: string | undefined,callback)=>{
+  if(!origin||allowedOrigin.includes(origin)){
+    callback(null,true);
+  }else{
+    callback(new Error('Not allowed by CORS'),false);
+  }
+}}));
 
 app.use('/api/v1', router);
 
