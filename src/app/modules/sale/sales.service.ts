@@ -6,12 +6,13 @@ import httpStatus from 'http-status';
 import { TSales } from './sales.interface';
 import { Sales } from './sales.model';
 import { Coupon } from '../coupon/coupon.model';
+import { Customer } from '../customer/customer.model';
+import { TCustomer } from '../customer/customer.interface';
 
-const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
+const createSaleIntoDB = async (userData: JwtPayload, payload: TSales&TCustomer) => {
   const { id: tokenId } = userData;
   const session = await mongoose.startSession();
 
-  
   try {
     session.startTransaction();
     const { productId, sell } = payload;
@@ -55,12 +56,32 @@ const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
       const discountPercentage = isValidCoupon.discountPercentage;
       discountPrice = totalPrice - totalPrice * (discountPercentage / 100);
     }
-    payload.userId = tokenId;
-    payload.totalPrice = totalPrice;
-    payload.discountPrice = discountPrice || totalPrice;
+    // payload.userId = tokenId;
+    // payload.totalPrice = totalPrice;
+    // payload.discountPrice = discountPrice || totalPrice;
     // Create a new sale
-    const sale = await Sales.create([payload], { session });
-
+    const saleData = {
+      productId: payload.productId,
+      sell: payload.sell,
+      buyerName: payload.buyerName,
+      saleDate: payload.saleDate,
+      sellerName:payload.sellerName,
+      coupon: payload.coupon,
+      userId: tokenId,
+      totalPrice: totalPrice,
+      discountPrice: discountPrice || totalPrice,
+    };
+    const sale = await Sales.create([saleData], { session });
+// customer Data
+const customerData={
+  name:payload.buyerName,
+  phoneNumber:payload.phoneNumber,
+  paymentStatus:payload.paymentStatus,
+  productId: payload.productId,
+  quantity: payload.sell,
+  sellerName:payload.sellerName
+}
+await Customer.create([customerData],{session})
     // Commit the transaction
     await session.commitTransaction();
     session.endSession();
@@ -75,14 +96,14 @@ const createSaleIntoDB = async (userData: JwtPayload, payload: TSales) => {
   }
 };
 const getAllSalesIntoDB = async () => {
-  const result = await Sales.find()
+  const result = await Sales.find().sort({createdAt:-1})
     .populate({ path: 'productId' })
     .populate({ path: 'userId' })
     .exec();
   return result;
 };
-const getSalesBySellerIntoDB = async (payload:string) => {
-  const result = await Sales.find({userId:payload})
+const getSalesBySellerIntoDB = async (payload: string) => {
+  const result = await Sales.find({ userId: payload })
     .populate({ path: 'productId' })
     .populate({ path: 'userId' })
     .exec();
@@ -91,5 +112,5 @@ const getSalesBySellerIntoDB = async (payload:string) => {
 export const salesService = {
   createSaleIntoDB,
   getAllSalesIntoDB,
-  getSalesBySellerIntoDB
+  getSalesBySellerIntoDB,
 };

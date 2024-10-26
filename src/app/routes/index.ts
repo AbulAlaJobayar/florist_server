@@ -4,6 +4,7 @@ import { authRouter } from '../modules/auth/auth.route';
 import { productRouter } from '../modules/product/product.route';
 import { salesRouter } from '../modules/sale/sales.route';
 import { couponRouter } from '../modules/coupon/coupon.route';
+import { CustomerRouter } from '../modules/customer/customer.route';
 
 const router = Router();
 const moduleRoutes = [
@@ -26,6 +27,10 @@ const moduleRoutes = [
   {
     path: '/coupon',
     route: couponRouter,
+  },
+  {
+    path: '/customer',
+    route: CustomerRouter,
   },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
