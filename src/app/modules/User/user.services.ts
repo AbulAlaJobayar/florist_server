@@ -10,6 +10,12 @@ const createUserIntoDB = async (payload: TUser) => {
   const {password,role,...otherField}=result.toObject()
   return otherField;
 };
+const totalSeller=async()=>{
+  const result= await User.find().countDocuments()
+  return result
+}
+
 export const UserService = {
   createUserIntoDB,
+  totalSeller
 };
