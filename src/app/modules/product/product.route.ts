@@ -13,6 +13,7 @@ router.post(
   productController.createProductIntoDB,
 );
 router.get('/flowers', productController.getAllProductIntoDB);
+router.get('/total_flowers', productController.totalProductFromDB);
 router.get(
   '/:id',
   auth(USER_ROLE.seller, USER_ROLE.manager),

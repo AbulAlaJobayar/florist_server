@@ -71,11 +71,21 @@ const bulkDelateFromDB = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const totalProductFromDB = catchAsync(async (req, res) => {
+  const result = await productService.totalProductFromDB()
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Flowers Count successfully!',
+    data: result,
+  });
+});
 export const productController = {
   createProductIntoDB,
   getAllProductIntoDB,
   getSingleProductFromDB,
   updateProductFromDB,
   delateProductFromDB,
-  bulkDelateFromDB
+  bulkDelateFromDB,
+  totalProductFromDB
 };

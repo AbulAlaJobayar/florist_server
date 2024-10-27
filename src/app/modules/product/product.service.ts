@@ -89,6 +89,10 @@ const bulkDeleteFromDB = async (userData: JwtPayload, itemIds: string[]) => {
   const result = await Product.deleteMany({ _id: { $in: itemIds } });
   return result.deletedCount;
 };
+const totalProductFromDB=async()=>{
+  const total= await Product.countDocuments({});
+  return total;
+}
 export const productService = {
   createProductIntoDB,
   getAllProductIntoDB,
@@ -96,4 +100,5 @@ export const productService = {
   updateProductFromDB,
   delateProductFromDB,
   bulkDeleteFromDB,
+  totalProductFromDB
 };
