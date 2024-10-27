@@ -13,6 +13,16 @@ const getAllCustomerFromDB = catchAsync(async (_req, res: Response) => {
     data: result,
   });
 });
+const totalCustomerFromDB = catchAsync(async (_req, res: Response) => {
+  const result = await CustomerService.totalCustomerFromDB()
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Total customer Count Retrieve successfully',
+    data: result,
+  });
+});
 export const CustomerController = {
   getAllCustomerFromDB,
+  totalCustomerFromDB
 };

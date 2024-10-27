@@ -1,7 +1,7 @@
-import httpStatus from "http-status";
-import catchAsync from "../../utils/catchAsync";
-import { couponService } from "./coupon.service";
-import sendResponse from "../../utils/sendResponse";
+import httpStatus from 'http-status';
+import catchAsync from '../../utils/catchAsync';
+import { couponService } from './coupon.service';
+import sendResponse from '../../utils/sendResponse';
 
 const createCouponIntoDB = catchAsync(async (req, res) => {
   const result = await couponService.createCoupon(req.user, req.body);
@@ -13,8 +13,8 @@ const createCouponIntoDB = catchAsync(async (req, res) => {
   });
 });
 const verifyCoupon = catchAsync(async (req, res) => {
-  const {coupon}=req.body
-        const result = await couponService.verifyCoupon(coupon);
+  const { coupon } = req.body;
+  const result = await couponService.verifyCoupon(coupon);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -22,7 +22,18 @@ const verifyCoupon = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const totalCoupon = catchAsync(async (_req, res) => {
+  const result = await couponService.totalCoupon();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Coupon Count retrieved successfully!',
+    data: result,
+  });
+});
+
 export const couponController = {
-        createCouponIntoDB,
-        verifyCoupon     
+  createCouponIntoDB,
+  verifyCoupon,
+  totalCoupon,
 };

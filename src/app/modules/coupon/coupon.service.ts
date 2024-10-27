@@ -24,8 +24,13 @@ const verifyCoupon = async (payload: string) => {
   }
   return result;
 };
+const totalCoupon=async()=>{
+  const result=await Coupon.countDocuments({});
+  return result;
+}
 
 export const couponService = {
   createCoupon,
-  verifyCoupon
+  verifyCoupon,
+  totalCoupon
 };
