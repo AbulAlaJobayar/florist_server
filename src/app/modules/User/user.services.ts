@@ -2,6 +2,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
+
 const createUserIntoDB = async (payload: TUser) => {
   // set user role
   payload.role = 'seller';
@@ -21,17 +22,17 @@ const totalSeller = async () => {
   return result;
 };
 const updateUserFromDB = async (id: JwtPayload, data: Partial<TUser>) => {
-  const result = await User.findByIdAndUpdate(
-    { _id: id },
-    { data },
-    { new: true },
-  );
-  return result
+  const result = await User.findByIdAndUpdate(id, data, { new: true });
+  return result;
 };
-
+const getMe = async (email: string) => {
+  const result = await User.findById(email);
+  return result;
+};
 export const UserService = {
   createUserIntoDB,
   totalSeller,
   getUserById,
   updateUserFromDB,
+  getMe,
 };

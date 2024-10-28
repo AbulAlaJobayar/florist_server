@@ -41,10 +41,21 @@ const updateUserFromDB = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const { email } = req.user;
+  const result = await UserService.getMe(email);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'My Profile Retrieved Successfully',
+    data: result,
+  });
+});
 
 export const userController = {
   createUser,
   totalSeller,
   getUserById,
   updateUserFromDB,
+  getMe
 };
