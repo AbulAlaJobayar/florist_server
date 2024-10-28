@@ -31,8 +31,20 @@ const totalSeller = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const updateUserFromDB = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.user;
+  const result = await UserService.updateUserFromDB(id, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User Updated successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   createUser,
   totalSeller,
-  getUserById
+  getUserById,
+  updateUserFromDB,
 };

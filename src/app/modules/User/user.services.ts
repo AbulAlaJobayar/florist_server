@@ -1,3 +1,4 @@
+import { JwtPayload } from 'jsonwebtoken';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 
@@ -19,9 +20,18 @@ const totalSeller = async () => {
   const result = await User.find().countDocuments();
   return result;
 };
+const updateUserFromDB = async (id: JwtPayload, data: Partial<TUser>) => {
+  const result = await User.findByIdAndUpdate(
+    { _id: id },
+    { data },
+    { new: true },
+  );
+  return result
+};
 
 export const UserService = {
   createUserIntoDB,
   totalSeller,
   getUserById,
+  updateUserFromDB,
 };
