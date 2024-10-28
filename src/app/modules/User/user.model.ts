@@ -27,6 +27,14 @@ const userSchema = new Schema<TUser>(
       type: String,
       enum: ['manager', 'seller'],
     },
+    address:{
+      type: String,
+      required: [true, 'please input your address'],
+    },
+    phoneNumber: {
+      type: String,
+      required: [true, 'please input your phone number'],
+    },
   },
   { timestamps: true },
 );

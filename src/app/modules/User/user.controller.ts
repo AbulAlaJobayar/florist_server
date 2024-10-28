@@ -13,6 +13,15 @@ const createUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getUserById = catchAsync(async (req, res) => {
+  const result = await UserService.getUserById(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'user retrieved successfully',
+    data: result,
+  });
+});
 const totalSeller = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.totalSeller();
   sendResponse(res, {
@@ -25,4 +34,5 @@ const totalSeller = catchAsync(async (req: Request, res: Response) => {
 export const userController = {
   createUser,
   totalSeller,
+  getUserById
 };

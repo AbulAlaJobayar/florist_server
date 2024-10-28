@@ -7,15 +7,21 @@ const createUserIntoDB = async (payload: TUser) => {
   const result = await User.create(payload);
   // send response withOut password and role
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  const {password,role,...otherField}=result.toObject()
+  const { password, role, ...otherField } = result.toObject();
   return otherField;
 };
-const totalSeller=async()=>{
-  const result= await User.find().countDocuments()
-  return result
-}
+const getUserById = async (id: string) => {
+  const result = await User.findById({ _id: id });
+  return result;
+};
+
+const totalSeller = async () => {
+  const result = await User.find().countDocuments();
+  return result;
+};
 
 export const UserService = {
   createUserIntoDB,
-  totalSeller
+  totalSeller,
+  getUserById,
 };
