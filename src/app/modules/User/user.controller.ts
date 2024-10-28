@@ -42,8 +42,9 @@ const updateUserFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const getMe = catchAsync(async (req: Request, res: Response) => {
-  const { email } = req.user;
-  const result = await UserService.getMe(email);
+  const { id } = req.user;
+
+  const result = await UserService.getMe(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

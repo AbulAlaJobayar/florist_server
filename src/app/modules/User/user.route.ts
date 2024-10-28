@@ -10,6 +10,6 @@ router.post("/register" ,validateRequest(userSchemaValidation.userValidation) ,u
 router.get("/total_seller",userController.totalSeller)
 router.get("/:id",userController.getUserById)
 router.post("/update",auth(USER_ROLE.seller, USER_ROLE.manager) ,userController.updateUserFromDB)
-router.get("/get_me",auth(USER_ROLE.seller, USER_ROLE.manager) ,userController.getMe)
+router.post("/me",auth(USER_ROLE.seller, USER_ROLE.manager) ,userController.getMe)
 
 export const userRouter = router;
