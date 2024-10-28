@@ -41,14 +41,14 @@ const updateUserFromDB = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const getMe = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.user;
-
-  const result = await UserService.getMe(id);
+const getMyProfileIntoDB = catchAsync(async (req:Request , res:Response) => {
+ 
+ 
+  const result = await UserService.getMyProfileIntoDB(req.user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'My Profile Retrieved Successfully',
+    message: "Profile retrieved successfully",
     data: result,
   });
 });
@@ -58,5 +58,5 @@ export const userController = {
   totalSeller,
   getUserById,
   updateUserFromDB,
-  getMe
+  getMyProfileIntoDB
 };

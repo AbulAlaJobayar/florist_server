@@ -11,6 +11,7 @@ import { TUserRole } from "../modules/User/user.interface";
 
 const auth = (...requiredRoles:TUserRole[]) => {
   return catchAsync(async (req:Request, res: Response, next: NextFunction) => {
+    
     const token = req.headers.authorization;
     if (!token) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'invalid JWT');
@@ -46,7 +47,6 @@ const auth = (...requiredRoles:TUserRole[]) => {
         'You are not authorized !',
       );
     }
-
     req.user = decoded as JwtPayload & { role: string };
 
     next();
